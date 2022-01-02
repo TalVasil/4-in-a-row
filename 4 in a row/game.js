@@ -4,7 +4,7 @@ let board = {
   howLong,
 };
 let playerTurn = true;
-
+let numberOfPlays = 0;
 
 form.addEventListener("submit", (e) => { //delete the form and calls boardBuilder func
   e.preventDefault();
@@ -18,31 +18,48 @@ form.addEventListener("submit", (e) => { //delete the form and calls boardBuilde
 });
 
 function turn(clickedCell) {//make a turn (any time a click is clicked the function make the lowest blue or red dependes on the players turn boolean)
-  let currrentCell = document.getElementById(clickedCell.id);
-  let currrentCellColor = currrentCell.style.backgroundColor;
-  let cellNumber = cellToNumber(currrentCell);
-  let numberCell = numberToCell(cellNumber);
-  if(currrentCellColor == "blue" || currrentCellColor == "red"){currrentCell.onclick = null;}
-  // while(currrentCellColor != "blue" || currrentCellColor != "red"){
-  //   if(numberToCell(cellNumber % board.length).style.backgroundColor != "blue" || 
-  //     numberToCell(cellNumber % board.length).style.backgroundColor != "red"){
-  //     if (playerTurn == true) {
-  //       numberToCell(cellNumber % board.length).style.backgroundColor = "blue";
-  //       playerTurn = false;
-  //     } else {
-  //       numberToCell(cellNumber % board.length).style.backgroundColor = "red";
-  //       playerTurn = true;
-  //     }
-  //   }
-  // }
+  let currrentCellElement = document.getElementById(clickedCell.id);
+  let cellNumber = cellToNumber(currrentCellElement);
+  let numberOFCell = numberToCell(cellNumber);
+  let usedCell = isFilled(clickedCell);
+  let tempPlays = numberOfPlays;
+  if(usedCell == true){currrentCellElement.onclick = null;}
+  while(numberOfPlays==tempPlays){
+    if(isFilled(document.getElementById('cell'+(cellNumber%board.length)))==flase){
+      if (playerTurn == true) {
+        currrentCellElement.style.backgroundColor = "blue";
+        playerTurn = false;
+      } else {
+        currrentCellElement.style.backgroundColor = "red";
+        playerTurn = true;
+      }
+      tempPlays++;
+    }
+    else if(isFilled(document.getElementById('cell'+((cellNumber%board.length)+board.length)))==flase){
+
+    }
+  }
+  numberOfPlays++;
   if (playerTurn == true) {
-    currrentCell.style.backgroundColor = "blue";
+    currrentCellElement.style.backgroundColor = "blue";
     playerTurn = false;
   } else {
-    currrentCell.style.backgroundColor = "red";
+    currrentCellElement.style.backgroundColor = "red";
     playerTurn = true;
   }
   return false;
+}
+
+function getUpperCell(cell){//returns the one above cell
+  if ((cellToNumber(cell)+board.length)>(board.length*board.width)) return -1;
+  return document.getElementById('cell'+(cellToNumber(cell)+board.length));
+}
+
+function isFilled(cell){//returns true if the cell is red || blue, false if empty
+  let cellElement=document.getElementById(cell.id);
+  if(cellElement.style.backgroundColor == "red" || cellElement.style.backgroundColor == "blue"){
+    return true;
+  }else return false;
 }
 
 function numberToCell(cell){//calls from a number to a specific cell
@@ -53,7 +70,7 @@ function cellToNumber(cell){//calls from a cell to a specific number
   return parseFloat(cell.id[4]);
 }
 
-function boardBuilder() {//bulides the board by the arguments of board (length and width)
+function boardBuilder() {//bulides the board by the arguments of board (length * width = amount of cells)
   document.getElementById("newGame").style.display = "inline-flex";
   let cell = document.getElementById('cell0');
   cell.id='cell'+ (board.length * board.width);
@@ -70,9 +87,7 @@ function boardBuilder() {//bulides the board by the arguments of board (length a
     cell.after(clone);
     document.getElementById('cell' + (1+i)).setAttribute("onclick", `turn(cell${i+1})`);
   }
-
 }
-
 
 function theme(){//change from light normal theme to dark theme
   if(document.getElementById("body").style.backgroundColor == "rgb(255, 255, 255)"){
@@ -89,6 +104,7 @@ function theme(){//change from light normal theme to dark theme
     document.getElementById("h1").style.color = "rgb(255, 255, 255)";
   }
 }
+
 function playAgain(){//makes the play again button
 document.createElement(button[onclick="window.location.reload()"]);
 document.body.appendChild();

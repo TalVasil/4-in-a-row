@@ -5,36 +5,30 @@
         <link href="style/main.css" rel="stylesheet" type="text/css">
         <script defer src ="game.js"></script>
     </head>
-    <body>
-        <h1>Welcome to 4-in-a-row!</h1>
+    <body id="body">
+        <h1 id="h1">Welcome to 4-in-a-row!</h1>
         <hr/>
+        <button id="theme" onclick="theme()">Change theme</button>
+        <button id="newGame" onclick="window.location.href='http://127.0.0.1:5500/4%20in%20a%20row/4-In-Line-Menu.html'">New Game</button>
         <form class="form" id="form">
         <h2 id="header">choose your map size:</h2>
             <!-- <div class=box></div> -->
-            <div>
                 <label for="length"> Length (between 3 and 10):</label>
                 <input type="number" id="length" name="length" 
                     min="3" max="10" required>
-            </div>
                 <br/><br/>
-            <div>
                 <label for="width"> Width (between 3 and 10):</label>
                 <input type="number" id="width" name="width" 
                     type="number" min="3" max="10" required>
-            </div>
                 <br/><br/>
-            <div>
                 <label for="howLong"> How many in line to win? (between 3 to 5):</label>
                 <input type="number" id="howLong" name="howLong" 
                     type="number" min="3"  max="5" required>
-            </div> 
-            <br/>
-            
-            <button id="submit" type="submit" ><img src="start (2).png"></button>
+                <br/><br/>
+            <button id="submit"  type="submit"><img src="start (2).png"></button>
             </form>
             <br/>
-            <div class="cell" id="cell"></div>    
-            </div>
+            <span id="cell0" onclick="turn(cell)" ></span>
         <br/>
     </body>
 </html>

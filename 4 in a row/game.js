@@ -225,10 +225,11 @@ function winnigCondition() {
 }
 
 function newGame(){
+  //ask you by the window if you want to play again if you answer yes open another window with the new game
   let popUp = window.confirm("Play again?");
   if (popUp==true) {
-    window.open("4-In-Line-Menu.html" ,"Have fun!");
-    window.close();
+    window.open("4-In-Line-Menu.html");
+    setTimeout(window.close(), 250);
   }
 }
 

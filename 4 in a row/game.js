@@ -161,11 +161,11 @@ function winnigCondition() {
       ) {
         if (board.gameMat[i][j] == 1) {
           window.alert("blue wins!");
-          // newGame();
+          newGame();
           return true;
         } else if (board.gameMat[i][j] == 2) {
           window.alert("red wins!");
-          // newGame();
+          newGame();
           return true;
         }
       } else if (
@@ -177,12 +177,12 @@ function winnigCondition() {
       ) {
         if (board.gameMat[i][j] == 1) {
           window.alert("blue wins!");
-          // newGame();
+          newGame();
           return true;
         } else if (board.gameMat[i][j] == 2) {
           window.alert("red wins!");
           return true;
-          // newGame();
+          newGame();
         }
       } else if (
         //4 in a diagonal
@@ -194,11 +194,11 @@ function winnigCondition() {
       ) {
         if (board.gameMat[i][j] == 1) {
           window.alert("blue wins!");
-          // newGame();
+          newGame();
           return true;
         } else if (board.gameMat[i][j] == 2) {
           window.alert("red wins!");
-          // newGame();
+          newGame();
           return true;
         }
       } else if (
@@ -211,11 +211,11 @@ function winnigCondition() {
       ) {
         if (board.gameMat[i][j] == 1) {
           window.alert("blue wins!");
-          // newGame();
+          newGame();
           return true;
         } else if (board.gameMat[i][j] == 2) {
           window.alert("red wins!");
-          // newGame();
+          newGame();
           return true;
         }
       }
@@ -224,12 +224,13 @@ function winnigCondition() {
   return false;
 }
 
-// function newGame(){
-//   let popUp = window.confirm("Play again?");
-//   if (popUp==true) {
-//     document.cloneNode(true);
-//   }
-// }
+function newGame(){
+  let popUp = window.confirm("Play again?");
+  if (popUp==true) {
+    window.open("4-In-Line-Menu.html" ,"Have fun!");
+    window.close();
+  }
+}
 
 function theme() {
   //change from light normal theme to dark theme

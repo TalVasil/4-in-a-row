@@ -1,16 +1,16 @@
 let board = {
-  //objects that gets the inputs from the form in the page
+  //object that gets the inputs from the form in the page
   length,
   width,
   // howLong,-+-+-+-+-+-+--+-+-+-+-+-+--+-+-+-+-+-+--+-+-+-+-+-+--+-+-+-+-+-+--+-+-+-+-+-+--+-+-+-+-+-+--+-+-+-+-+-+-
   gameMat: [],
-  // pointer,
+  didntWon:0,
 };
 let playerTurn = true;
-//boolean that represents the turn
+//boolean that represents the turn (true == blue || false == red)
 
 function matBuilder(gameMat) {
-  //builds a mat similar o the board
+  //builds a mat similar to the board while the first cell = board.gameMat[0][0]
   for (let i = 0; i < board.length; i++) {
     let col = [];
     for (let j = 0; j < board.width; j++) {
@@ -30,14 +30,11 @@ form.addEventListener("submit", (e) => {
   form = document.getElementById("form");
   form.remove();
   matBuilder(board.gameMat);
-  // let turnDeclaration = document.createElement("TEXTAREA");
-  // turnDeclaration.style.borderBlockColor = "rgb(0, 0, 0)";
-  // whosTurn(turnDeclaration);
   boardBuilder();
 });
 
 function boardBuilder() {
-  //bulides the board by the arguments of board
+  //bulides the board by the arguments of board object
   document.getElementById("newGame").style.display = "inline-flex";
   let cell = document.getElementById("cell0");
   cell.id = "cell" + board.length * board.width;
@@ -59,21 +56,22 @@ function boardBuilder() {
 }
 
 function turn(clickedCell) {
-  //onClick function, whenever the cell gets clicked the func will "drop" a blue or red to the right spot
+  //onClick function - whenever the cell gets clicked the func will "drop" a blue or red to the right spot
   let cell = cellToNumber(clickedCell.id);
   cell = refactorCell(cell);
   let currentCell = numberToCell(cell);
   while (isFilled(currentCell) == false) {
-    filler(cell);
     cell = refactorCell(cell);
-    winnigCondition();
+    filler(cell);
+    let ifWon = winnigCondition();
+    isDraw(ifWon);
   }
-  if (playerTurn == true) playerTurn = false;
-  else playerTurn = true;
+    if (playerTurn == true) playerTurn = false;
+    else playerTurn = true;
 }
 
 function filler(cell) {
-  //gets a number of the cell and fills the right cell with color and value to the mat and on the screen
+  //gets a number of the cell and fills it by the boolean playerTurn
   let currentCell = numberToCell(cell);
   if (playerTurn == true) {
     currentCell.style.backgroundColor = "blue";
@@ -90,7 +88,7 @@ function filler(cell) {
 
 function elemntToMatConvertor(cell) {
   //this func gets cell element and returns an array that represent his to his cell inside the mat
-  //(placeInArray[row][col][val[col][row]])
+  //(placeInArray[row][col][board.gameMat[col][row]])
   let placeInCol = cellToNumber(cell.id);
   let placeInLine = 0;
   let placeInMat = [];
@@ -144,6 +142,11 @@ function refactorCell(cell) {
     } else if (isFilled(numberToCell(cell + board.width)) == true) {
       //under cell is filled
       return cell;
+    } else if (isFilled(cell) == true) {
+      console.log(cell);
+      //this cell is filled
+      cell -= board.width;
+      console.log(cell);
     }
   }
   return cell;
@@ -181,8 +184,8 @@ function winnigCondition() {
           return true;
         } else if (board.gameMat[i][j] == 2) {
           window.alert("red wins!");
-          return true;
           newGame();
+          return true;
         }
       } else if (
         //4 in a diagonal
@@ -204,7 +207,7 @@ function winnigCondition() {
       } else if (
         //4 in a reversed diagonal
         i >= 3 &&
-        j <= board.width-3 &&
+        j <= board.width - 3 &&
         board.gameMat[i][j] == board.gameMat[i - 1][j + 1] &&
         board.gameMat[i][j] == board.gameMat[i - 2][j + 2] &&
         board.gameMat[i][j] == board.gameMat[i - 3][j + 3]
@@ -224,17 +227,28 @@ function winnigCondition() {
   return false;
 }
 
-function newGame(){
+function isDraw(ifWon){
+  //checks if there is a draw
+  if(ifWon==false){
+    board.didntWon++;
+  }
+  if(board.didntWon==(board.length*board.width)){
+    window.alert("Draw - no winner");
+    newGame();
+  }
+} 
+
+function newGame() {
   //ask you by the window if you want to play again if you answer yes open another window with the new game
   let popUp = window.confirm("Play again?");
-  if (popUp==true) {
+  if (popUp == true) {
     window.open("4-In-Line-Menu.html");
     setTimeout(window.close(), 250);
   }
 }
 
 function theme() {
-  //change from light normal theme to dark theme
+  //toggle from light normal theme to dark theme
   let background = document.getElementById("body");
   if (
     window.getComputedStyle(background).backgroundColor == "rgb(255, 255, 255)"

@@ -4,7 +4,7 @@ let board = {
   width,
   // howLong,-+-+-+-+-+-+--+-+-+-+-+-+--+-+-+-+-+-+--+-+-+-+-+-+--+-+-+-+-+-+--+-+-+-+-+-+--+-+-+-+-+-+--+-+-+-+-+-+-
   gameMat: [],
-  didntWon:0,
+  didntWon: 0,
 };
 let playerTurn = true;
 //boolean that represents the turn (true == blue || false == red)
@@ -68,6 +68,7 @@ function turn(clickedCell) {
   }
     if (playerTurn == true) playerTurn = false;
     else playerTurn = true;
+  
 }
 
 function filler(cell) {
@@ -139,15 +140,13 @@ function refactorCell(cell) {
     if (isFilled(numberToCell(cell + board.width)) == false) {
       //under cell not filled
       cell += board.width;
-    } else if (isFilled(numberToCell(cell + board.width)) == true) {
+    }
+ 
+     else if (isFilled(numberToCell(cell + board.width)) == true) {
       //under cell is filled
       return cell;
-    } else if (isFilled(cell) == true) {
-      console.log(cell);
-      //this cell is filled
-      cell -= board.width;
-      console.log(cell);
     }
+    
   }
   return cell;
 }
@@ -227,23 +226,23 @@ function winnigCondition() {
   return false;
 }
 
-function isDraw(ifWon){
+function isDraw(ifWon) {
   //checks if there is a draw
-  if(ifWon==false){
+  if (ifWon == false) {
     board.didntWon++;
   }
-  if(board.didntWon==(board.length*board.width)){
+  if (board.didntWon == board.length * board.width) {
     window.alert("Draw - no winner");
     newGame();
   }
-} 
+}
 
 function newGame() {
   //ask you by the window if you want to play again if you answer yes open another window with the new game
   let popUp = window.confirm("Play again?");
   if (popUp == true) {
+    window.close();
     window.open("4-In-Line-Menu.html");
-    setTimeout(window.close(), 250);
   }
 }
 
